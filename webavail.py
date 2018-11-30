@@ -15,6 +15,17 @@ def check_input_url(input_url):
 
     return 0
 
+def check_dns_records(input_url):
+    '''
+    Checks the DNS records of the input url.
+    Returns the 'A' and 'NS' records for the url in dictionary object.
+    '''
+    #'http://' needs to be removed from the input_url
+    #A records need to be checked using all available elements of url
+    #NS records need to check the domain and top level domain only
+
+    pass
+
 def main():
     #Check the input to make sure that a parameter was passed
     try:
@@ -46,6 +57,8 @@ def main():
     #If available, check DNS records for all A record IPs and NS records
     #in order to return website IPs as well as Name Servers (including count)
 
+    dns_records = check_dns_records(input_url)
+
     #Also if available, check the number of hops to the website utilizing
     #pythons subprocess module
 
@@ -54,6 +67,14 @@ def main():
     print "URL: {}".format(input_url)
     print "Response Code: {}".format(response.code)
     print "The Website is currently available."
+    print "Currently Available IPs for this url: "
+    #for a in dns_records['A_records']:
+    #    print "- {}".format(a)
+    #print "Count of Name Servers for this url: {}"\
+    #        .format(len(dns_record['NS_records']))
+    print "Currently available Name Servers for this url: "
+    #for ns in dns_records['NS_records']:
+    #    print "- {}".format(ns)
 
 if __name__ == "__main__":
     main()
