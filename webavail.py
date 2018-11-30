@@ -32,6 +32,9 @@ def check_result_of_url(input_url):
         else:
             m = "Website is Unavailable."
         return (1, m)
+    except ValueError as e:
+        m = "Unknown URL Type."
+        return (1, m)
 
     return (0, response.code)
 
