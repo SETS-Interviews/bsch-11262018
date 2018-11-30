@@ -29,5 +29,17 @@ assert check_result_of_url(url_check_3)[1] == 200
 url_check_4 = "http://www.google"
 assert check_result_of_url(url_check_4)[0] == 1
 
+#Check DNS Records
+dns_check_1 = "http://www.reddit.com/"
+assert sorted(dns_check_1['NS_records'])[0] == 'ns-1029.awsdns-00.org.'
+assert sorted(dns_check_1['NS_records'])[-1] == 'ns-557.awsdns-05.net.'
+assert sorted(dns_check_1['A_records'])[0] == '151.101.1.140'
+
+dns_check_2 = "https://hub.docker.com"
+assert sorted(dns_check_1['NS_records'])[0] == 'ns-1289.awsdns-33.org.'
+assert sorted(dns_check_1['NS_records'])[-1] == 'ns-568.awsdns-07.net.'
+assert sorted(dns_check_1['A_records'])[0] == '34.232.230.241'
+
+
 
 print "All Tests Passed!"
