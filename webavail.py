@@ -80,10 +80,25 @@ def check_dns_records(input_url):
 def check_number_of_hops(input_url):
     '''
     Takes the input_url and calls 'ping' one time to calculate the ttl.
-    Returns int of ttl to IP.
+    Returns hops as in of IP, if available.
     '''
+    host = input_url.replace("https://", "").replace("http://","")
 
-    pass
+    result = subprocess.check_output(['ping', '-n', '1', host])
+
+    m = re.search('ttl=[0-9]+', result.lower())
+    if m:
+        ttl = int(m.group(0).split('=')[1])
+        if ttl <= 64:
+            hops = 64 - ttl
+        elif ttl <= 128:
+            hops = 128 - ttl
+        else: #Assumed ttl of 254
+            hops = 254 - ttl
+
+        return hops
+
+    return 0
 
 def main():
     #Check the input to make sure that a parameter was passed

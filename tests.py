@@ -31,6 +31,8 @@ assert check_result_of_url(url_check_4)[0] == 1
 
 #Check DNS Records
 dns_check_1 = check_dns_records("http://www.reddit.com/")
+assert type(dns_check_1) is dict
+assert type(dns_check_1['A_records']) is list
 assert sorted(dns_check_1['NS_records'])[0] == 'ns-1029.awsdns-00.org.'
 assert sorted(dns_check_1['NS_records'])[-1] == 'ns-557.awsdns-05.net.'
 assert sorted(dns_check_1['A_records'])[0] == '151.101.1.140'
@@ -44,6 +46,8 @@ dns_check_3 = check_dns_records("http://api.reddit.com/users")
 assert sorted(dns_check_1['NS_records'])[0] == 'ns-1029.awsdns-00.org.'
 assert sorted(dns_check_1['NS_records'])[-1] == 'ns-557.awsdns-05.net.'
 assert sorted(dns_check_1['A_records'])[-1] == '151.101.65.140'
+
+
 
 
 
