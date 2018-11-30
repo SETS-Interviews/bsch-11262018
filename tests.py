@@ -47,8 +47,8 @@ assert sorted(dns_check_1['NS_records'])[0] == 'ns-1029.awsdns-00.org.'
 assert sorted(dns_check_1['NS_records'])[-1] == 'ns-557.awsdns-05.net.'
 assert sorted(dns_check_1['A_records'])[-1] == '151.101.65.140'
 
-
-
-
+#Check Number of Hops
+hop_check_1 = "http://www.google.com"
+assert type(check_number_of_hops(hop_check_1)) is int
 
 print "All Tests Passed!"
