@@ -26,6 +26,14 @@ def check_dns_records(input_url):
 
     pass
 
+def check_number_of_hops(input_url):
+    '''
+    Takes the input_url and calls 'ping' one time to calculate the ttl.
+    Returns int of ttl to IP.
+    '''
+
+    pass
+
 def main():
     #Check the input to make sure that a parameter was passed
     try:
@@ -62,6 +70,8 @@ def main():
     #Also if available, check the number of hops to the website utilizing
     #pythons subprocess module
 
+    count_hops = check_number_of_hops(input_url)
+
     #Print this information to the console and exit the utility
 
     print "URL: {}".format(input_url)
@@ -75,6 +85,7 @@ def main():
     print "Currently available Name Servers for this url: "
     #for ns in dns_records['NS_records']:
     #    print "- {}".format(ns)
+    print "Count of Hops to this url: {}".format(count_hops)
 
 if __name__ == "__main__":
     main()
