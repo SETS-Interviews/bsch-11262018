@@ -59,8 +59,10 @@ def main():
             print "Website is Unavailable. Error Code: {}.".format(e.code)
             exit(1)
         else:
-            print "Website is Unavailable"
+            print "Website is Unavailable."
             raise
+
+    http_status_code = response.code
 
     #If available, check DNS records for all A record IPs and NS records
     #in order to return website IPs as well as Name Servers (including count)
@@ -75,7 +77,7 @@ def main():
     #Print this information to the console and exit the utility
 
     print "URL: {}".format(input_url)
-    print "Response Code: {}".format(response.code)
+    print "Response Code: {}".format(http_status_code)
     print "The Website is currently available."
     print "Currently Available IPs for this url: "
     #for a in dns_records['A_records']:
