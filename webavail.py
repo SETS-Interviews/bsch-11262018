@@ -15,6 +15,26 @@ def check_input_url(input_url):
 
     return 0
 
+def check_result_of_url(input_url):
+    '''
+    Checks the url by calling url and retrieving the status code.
+    returns (0, <status_code>) if available.
+    returns (1, <message>, <error>) if not available.
+    '''
+    try:
+        response = urllib2.urlopen(input_url)
+    except urllib2.URLError as e:
+        m = "URL does not resolve to an IP."
+        return (1, m)
+    except urllib2.HTTPError as e:
+        if e.code == 404:
+            m = "Website is Unavailable. Error Code: {}.".format(e.code)
+        else:
+            m = "Website is Unavailable."
+        return (1, m)
+
+    return (0, response.code)
+
 def check_dns_records(input_url):
     '''
     Checks the DNS records of the input url.
@@ -49,20 +69,14 @@ def main():
 
     #Make an http request to the website to confirm that it is available
     #If unavailable, print message that it's unavailable
-    try:
-        response = urllib2.urlopen(input_url)
-    except urllib2.URLError:
-        print "URL does not resolve to an IP."
-        exit(1)
-    except urllib2.HTTPError as e:
-        if e.code == 404:
-            print "Website is Unavailable. Error Code: {}.".format(e.code)
-            exit(1)
-        else:
-            print "Website is Unavailable."
-            raise
 
-    http_status_code = response.code
+    result = check_result_of_url(input_url)
+
+    if result[0]: #If result returns non-zero response
+        print result[1]
+        exit(1)
+
+    http_status_code = result[1]
 
     #If available, check DNS records for all A record IPs and NS records
     #in order to return website IPs as well as Name Servers (including count)
