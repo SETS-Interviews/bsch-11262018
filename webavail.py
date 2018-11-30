@@ -49,8 +49,33 @@ def check_dns_records(input_url):
     #'http://' needs to be removed from the input_url
     #A records need to be checked using all available elements of url
     #NS records need to check the domain and top level domain only
+    #Grab the host of the website
+    host = input_url.replace("https://", "").replace("http://","")
+    host = host.split('/')[0] #Remove anything after top level domain
 
-    pass
+    #Create Dictionary for DNS Records
+    dns_records = {'A_records': [], 'NS_records': []}
+    #A Records
+    for i in range(len(host.split('.')) - 1):
+        next_host = '.'.join(host.split('.')[i:])
+        try:
+            '.'.join(next_host)
+            a_records = dns.resolver.query(next_host, 'A')
+        except:
+            continue
+        dns_records['A_records'] = [i.to_text() for i in a_records]
+
+    #NS Records
+    for i in range(len(host.split('.')) - 1):
+        next_host = '.'.join(host.split('.')[i:])
+        try:
+            '.'.join(next_host)
+            name_servers = dns.resolver.query(next_host, 'NS')
+        except:
+            continue
+        dns_records['NS_records'] = [i.to_text() for i in name_servers]
+
+    return dns_records
 
 def check_number_of_hops(input_url):
     '''
@@ -100,13 +125,13 @@ def main():
     print "Response Code: {}".format(http_status_code)
     print "The Website is currently available."
     print "Currently Available IPs for this url: "
-    #for a in dns_records['A_records']:
-    #    print "- {}".format(a)
-    #print "Count of Name Servers for this url: {}"\
-    #        .format(len(dns_record['NS_records']))
+    for a in dns_records['A_records']:
+        print "- {}".format(a)
+    print "Count of Name Servers for this url: {}"\
+            .format(len(dns_records['NS_records']))
     print "Currently available Name Servers for this url: "
-    #for ns in dns_records['NS_records']:
-    #    print "- {}".format(ns)
+    for ns in dns_records['NS_records']:
+        print "- {}".format(ns)
     print "Count of Hops to this url: {}".format(count_hops)
 
 if __name__ == "__main__":
