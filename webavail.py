@@ -1,4 +1,5 @@
 import sys
+import urllib2
 import dns.resolver
 import subprocess
 import re
@@ -29,6 +30,18 @@ def main():
 
     #Make an http request to the website to confirm that it is available
     #If unavailable, print message that it's unavailable
+    try:
+        response = urllib2.urlopen(input_url)
+    except urllib2.URLError:
+        print "URL does not resolve to an IP."
+        exit(1)
+    except urllib2.HTTPError as e:
+        if e.code == 404:
+            print "Website is Unavailable. Error Code: {}.".format(e.code)
+            exit(1)
+        else:
+            print "Website is Unavailable"
+            raise
 
     #If available, check DNS records for all A record IPs and NS records
     #in order to return website IPs as well as Name Servers (including count)
@@ -38,7 +51,9 @@ def main():
 
     #Print this information to the console and exit the utility
 
-    print input_url
+    print "URL: {}".format(input_url)
+    print "Response Code: {}".format(response.code)
+    print "The Website is currently available."
 
 if __name__ == "__main__":
     main()
