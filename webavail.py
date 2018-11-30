@@ -2,18 +2,21 @@ import sys
 import urllib2
 import dns.resolver
 import subprocess
+import validators
 import re
 
 def check_input_url(input_url):
     '''
-    Checks the input url that it conforms to the standard format of
-    <subdomain>.<domain>.<top-level domain> standard.
+    Checks the input url that it conforms to the standard http
+    protocol.
 
     Returns 0 if well-formed.
     Returns 1 if ill-formed.
     '''
-
-    return 0
+    if not validators.url(input_url):
+        return 1
+    else:
+        return 0
 
 def check_result_of_url(input_url):
     '''
