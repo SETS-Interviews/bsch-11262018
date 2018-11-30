@@ -11,6 +11,7 @@ the host.
 
 Python 3rd Party Libraries Required:
 - dnspython>=1.15.0
+- validators>=0.11.0
 
 ## Quick Start
 To run, download this library into your local directory and
