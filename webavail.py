@@ -1,4 +1,5 @@
 import sys
+import platform
 import urllib2
 import dns.resolver
 import subprocess
@@ -88,7 +89,10 @@ def check_number_of_hops(input_url):
     '''
     host = input_url.replace("https://", "").replace("http://","")
 
-    result = subprocess.check_output(['ping', '-n', '1', host])
+    if platform.system() == 'Windows':
+        result = subprocess.check_output(['ping', '-n', '1', host])
+    else:
+        result = subprocess.check_output(['ping', '-c', '1', host])
 
     m = re.search('ttl=[0-9]+', result.lower())
     if m:
