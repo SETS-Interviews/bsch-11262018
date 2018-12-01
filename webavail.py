@@ -32,7 +32,7 @@ def check_result_of_url(input_url):
     try:
         response = urllib2.urlopen(input_url)
     except urllib2.URLError as e:
-        m = "URL does not resolve to an IP."
+        m = "Error in handling URL."
         return (1, m, e)
     except ValueError as e:
         m = "Unknown URL Type."
