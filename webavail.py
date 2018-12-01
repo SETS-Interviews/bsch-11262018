@@ -34,10 +34,10 @@ def check_result_of_url(input_url):
     try:
         response = urllib2.urlopen(input_url)
     except urllib2.URLError as e:
-        m = "Error in handling URL."
+        m = "Error in handling URL. Full Error Message Below."
         return (1, m, e)
     except ValueError as e:
-        m = "Unknown URL Type."
+        m = "Unknown URL Type. Full Error Message Below."
         return (1, m, e)
     except urllib2.HTTPError as e: #Server can be reached, so return code.
         return (0, e.code)
