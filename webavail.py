@@ -15,6 +15,8 @@ def check_input_url(input_url):
     Returns (1, <message>) if ill-formed.
     '''
     if not validators.url(input_url):
+        #One common issue would be to not include HTTP in the request
+        #This would identify that more easily
         if 'http' not in input_url:
             return (1,\
              "Please include 'http://' or 'https:// in your url request")
@@ -86,6 +88,7 @@ def check_number_of_hops(input_url):
     host = input_url.replace("https://", "").replace("http://","")
     host = host.split('/')[0]
 
+    #Checking System to be able to run on both windows and linux
     if platform.system() == 'Windows':
         result = subprocess.check_output(['ping', '-n', '1', host])
     else:
