@@ -33,10 +33,10 @@ def check_result_of_url(input_url):
         response = urllib2.urlopen(input_url)
     except urllib2.URLError as e:
         m = "URL does not resolve to an IP."
-        return (1, m)
+        return (1, m, e)
     except ValueError as e:
         m = "Unknown URL Type."
-        return (1, m)
+        return (1, m, e)
     except urllib2.HTTPError as e: #Server can be reached, so return code.
         return (0, e.code)
 
@@ -84,6 +84,7 @@ def check_number_of_hops(input_url):
     Returns hops as in of IP, if available.
     '''
     host = input_url.replace("https://", "").replace("http://","")
+    host = host.split('/')[0]
 
     if platform.system() == 'Windows':
         result = subprocess.check_output(['ping', '-n', '1', host])
@@ -127,7 +128,7 @@ def main():
 
     if result[0]: #If result returns non-zero response
         print result[1]
-        exit(1)
+        raise result[2]
 
     http_status_code = result[1]
 
