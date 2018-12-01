@@ -34,15 +34,11 @@ def check_result_of_url(input_url):
     except urllib2.URLError as e:
         m = "URL does not resolve to an IP."
         return (1, m)
-    except urllib2.HTTPError as e:
-        if e.code == 404:
-            m = "Website is Unavailable. Error Code: {}.".format(e.code)
-        else:
-            m = "Website is Unavailable."
-        return (1, m)
     except ValueError as e:
         m = "Unknown URL Type."
         return (1, m)
+    except urllib2.HTTPError as e: #Server can be reached, so return code.
+        return (0, e.code)
 
     return (0, response.code)
 
