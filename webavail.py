@@ -96,6 +96,10 @@ def check_number_of_hops(input_url):
 
     m = re.search('ttl=[0-9]+', result.lower())
     if m:
+        #ttl returned based on host system
+        #This script assumes that ttl returned is less than
+        #30 hops, and calculates the ttl based on the most
+        #common system ttl's (64, 128, 254)
         ttl = int(m.group(0).split('=')[1])
         if ttl <= 64:
             hops = 64 - ttl
