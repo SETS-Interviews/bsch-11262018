@@ -10,13 +10,17 @@ def check_input_url(input_url):
     Checks the input url that it conforms to the standard http
     protocol.
 
-    Returns 0 if well-formed.
-    Returns 1 if ill-formed.
+    Returns (0, None) if well-formed.
+    Returns (1, <message>) if ill-formed.
     '''
     if not validators.url(input_url):
-        return 1
+        if 'http' not in input_url:
+            return (1,\
+             "Please include 'http://' or 'https:// in your url request")
+        else:
+            return (1, "The URL is ill-formed")
     else:
-        return 0
+        return (0, None)
 
 def check_result_of_url(input_url):
     '''
@@ -109,8 +113,11 @@ def main():
         sys.exit(1)
 
     #Check the input URL to confirm that it is well formed
-    if check_input_url(input_url):
-        print "URL is not well formed. Please provide a well formed url."
+
+    url_form_check = check_input_url(input_url)
+
+    if url_form_check[0]:
+        print url_form_check[1]
         sys.exit(1)
 
     #Make an http request to the website to confirm that it is available
