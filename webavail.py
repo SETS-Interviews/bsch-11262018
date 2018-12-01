@@ -151,17 +151,25 @@ def main():
 
     #Print this information to the console and exit the utility
 
+    print "\nURL Retrieval Successful!"
     print "URL: {}".format(input_url)
-    print "Response Code: {}".format(http_status_code)
+
+    print "\nHTTP Response Code: {}".format(http_status_code)
     print "The Website is currently available."
+
+    print "\nWebsite URL Search"
     print "Currently Available IPs for this url: "
     for a in dns_records['A_records']:
         print "- {}".format(a)
-    print "Count of Name Servers for this url: {}"\
-            .format(len(dns_records['NS_records']))
+
+    print "\nName Server Search"
     print "Currently available Name Servers for this url: "
     for ns in dns_records['NS_records']:
         print "- {}".format(ns)
+    print "Count of Name Servers for this url: {}"\
+            .format(len(dns_records['NS_records']))
+
+    print "\nHop Count"
     print "Count of Hops to this url: {}".format(count_hops)
 
 if __name__ == "__main__":
