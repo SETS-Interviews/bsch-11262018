@@ -100,10 +100,14 @@ def check_number_of_hops(input_url):
     #Python will use subprcess to call the function on the OS, and then
     #return the result as a string.
     #platform.system checks OS so this runs on Windows (if needed)
-    if platform.system() == 'Windows':
-        result = subprocess.check_output(['ping', '-n', '1', host])
-    else:
-        result = subprocess.check_output(['ping', '-c', '1', host])
+    try:
+        if platform.system() == 'Windows':
+            result = subprocess.check_output(['ping', '-n', '1', host])
+        else:
+            result = subprocess.check_output(['ping', '-c', '1', host])
+    except:
+        #Cound not return result from ping
+        return 0
 
     #Searches for ttl in string output and returns the ttl
     m = re.search('ttl=[0-9]+', result.lower())
@@ -154,7 +158,7 @@ def main():
     #After this point, no failures in the DNS record or the Ping result
     #will fail the utility. Instead, a message will appear that the
     #records were not found in lieu of returning a non-zero exit code.
-    
+
     #If available, check DNS records for all A record IPs and NS records
     #in order to return website IPs as well as Name Servers (including count)
 
