@@ -151,6 +151,10 @@ def main():
 
     http_status_code = result[1]
 
+    #After this point, no failures in the DNS record or the Ping result
+    #will fail the utility. Instead, a message will appear that the
+    #records were not found in lieu of returning a non-zero exit code.
+    
     #If available, check DNS records for all A record IPs and NS records
     #in order to return website IPs as well as Name Servers (including count)
 
@@ -170,19 +174,31 @@ def main():
     print "The Website is currently available."
 
     print "\nWebsite URL Search"
-    print "Currently Available IPs for this url: "
-    for a in dns_records['A_records']:
-        print "- {}".format(a)
+
+    if dns_records['A_records']:
+        print "Currently Available IPs for this url: "
+        for a in dns_records['A_records']:
+            print "- {}".format(a)
+    else: #No A Records Found
+        print "Could not find IPs for this website."
+        print "DNS search for this URL failed."
 
     print "\nName Server Search"
-    print "Currently available Name Servers for this url: "
-    for ns in dns_records['NS_records']:
-        print "- {}".format(ns)
-    print "Count of Name Servers for this url: {}"\
-            .format(len(dns_records['NS_records']))
+    if dns_records['NS_records']:
+        print "Currently available Name Servers for this url: "
+        for ns in dns_records['NS_records']:
+            print "- {}".format(ns)
+        print "Count of Name Servers for this url: {}"\
+                .format(len(dns_records['NS_records']))
+    else: #No NS Records Found
+        print "Could not find Name Servers for this website."
+        print "DNS search for this URL failed."
 
     print "\nHop Count"
-    print "Count of Hops to this url: {}".format(count_hops)
+    if count_hops > 0:
+        print "Count of Hops to this url: {}".format(count_hops)
+    else: #Hop Count returned 0 (likely due to ping failing)
+        print "Could not find number of hops to url."
 
 if __name__ == "__main__":
     main()
