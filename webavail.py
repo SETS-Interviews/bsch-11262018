@@ -14,6 +14,10 @@ def check_input_url(input_url):
     Returns (0, None) if well-formed.
     Returns (1, <message>) if ill-formed.
     '''
+    #Validators checks if URL is in a valid format.
+    #This library does not search if top level domain is correct,
+    #or if URL will resolve, only to make sure that the url can be
+    #checked.
     if not validators.url(input_url):
         #One common issue would be to not include HTTP in the request
         #This would identify that more easily
@@ -84,16 +88,24 @@ def check_number_of_hops(input_url):
     '''
     Takes the input_url and calls 'ping' one time to calculate the ttl.
     Returns hops as in of IP, if available.
+
+    If ping not available, return 0.
     '''
+    #Need to remove the protocol and any url paths after top level
+    #domain to work with Ping
     host = input_url.replace("https://", "").replace("http://","")
     host = host.split('/')[0]
 
-    #Checking System to be able to run on both windows and linux
+    #Utilizing "ping", which includes a ttl variable from the function
+    #Python will use subprcess to call the function on the OS, and then
+    #return the result as a string.
+    #platform.system checks OS so this runs on Windows (if needed)
     if platform.system() == 'Windows':
         result = subprocess.check_output(['ping', '-n', '1', host])
     else:
         result = subprocess.check_output(['ping', '-c', '1', host])
 
+    #Searches for ttl in string output and returns the ttl
     m = re.search('ttl=[0-9]+', result.lower())
     if m:
         #ttl returned based on host system
