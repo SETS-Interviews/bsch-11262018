@@ -25,7 +25,8 @@ def check_input_url(input_url):
             return (1,\
              "Please include 'http://' or 'https:// in your url request")
         else:
-            return (1, "The URL is ill-formed")
+            return (1, \
+            "The URL is ill-formed. Please check your url and try again.")
     else:
         return (0, None)
 
@@ -38,10 +39,10 @@ def check_result_of_url(input_url):
     try:
         response = urllib2.urlopen(input_url)
     except urllib2.URLError as e:
-        m = "Error in handling URL. Full Error Message Below."
+        m = "Error in handling URL. Please check full error message below."
         return (1, m, e)
     except ValueError as e:
-        m = "Unknown URL Type. Full Error Message Below."
+        m = "Unknown URL Type. Please check full error message below."
         return (1, m, e)
     except urllib2.HTTPError as e: #Server can be reached, so return code.
         return (0, e.code)
