@@ -23,7 +23,7 @@ def check_input_url(input_url):
         #This would identify that more easily
         if 'http' not in input_url:
             return (1,\
-             "Please include 'http://' or 'https:// in your url request")
+             "Please include 'http://' or 'https:// in your url request.")
         else:
             return (1, \
             "The URL is ill-formed. Please check your url and try again.")
