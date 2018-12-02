@@ -17,7 +17,6 @@ Python 3rd Party Libraries Required:
 ## Quick Start
 To run, download this script from github using the following
 command:
-
 > git clone https://github.com/SETS-Interviews/bsch-11262018.git
 
 Then download the required libraries, if not already installed.
